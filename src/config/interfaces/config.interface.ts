@@ -1,6 +1,7 @@
 export interface EnvConfiguration {
 	app: Configuration.Application;
-	mongo: Configuration.MongoDB
+	mongo: Configuration.MongoDB;
+	jwt: Configuration.JWT;
 }
 
 
@@ -13,5 +14,9 @@ export namespace Configuration {
 	export interface MongoDB {
 		uri: string;
 		dbname: string;
+	}
+
+	export interface JWT {
+		secret: string;
 	}
 }

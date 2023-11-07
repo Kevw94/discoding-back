@@ -7,15 +7,19 @@ export enum Status {
 
 export interface User {
 	_id?: ObjectId
-	pseudo?: string
+	profile?: UserProfile;
 	is_active?: boolean
 	status?: Status
 	bio?: string
 	created_at?: Date
-	email?: string
-	password?: string
 	profile_pricture?: string
 	users_blocked?: Array<ObjectId>
 	friends?: Array<ObjectId>
-	activation_code?: string
+	activation_token?: string
+}
+
+export interface UserProfile {
+	username?: string;
+	email?: string;
+	password?: string;
 }
