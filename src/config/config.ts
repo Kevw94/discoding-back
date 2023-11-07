@@ -8,4 +8,7 @@ export const config: EnvConfiguration  = {
 		uri: process.env.MONGO_URI,
 		dbname: process.env.MONGO_DBNAME,
 	},
+	jwt: {
+		secret: process.env.JWT_SECRET,
+	},
 }
