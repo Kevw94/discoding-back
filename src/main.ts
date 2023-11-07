@@ -7,6 +7,7 @@ import { config } from '@/config/config';
 async function bootstrap() {
 	const PORT = config.app.port;
 	const app = await NestFactory.create(AppModule);
+	app.enableCors();
 	await app.listen(PORT);
 	return app.getUrl();
 }
