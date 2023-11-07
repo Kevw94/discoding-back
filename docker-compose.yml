@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  mongo:
+    container_name: discoding
+    restart: always
+    image: mongo
+    ports:
+      - 27089:27017
+    volumes:
+      - ./data:/data/db
