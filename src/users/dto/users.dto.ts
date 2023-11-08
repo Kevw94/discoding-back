@@ -54,3 +54,8 @@ export class UpdateUserProfileDTO {
 	received_requests: Array<ReceivedRequestDTO>
 }
 
+export class  AddFriendDTO {
+	@IsNotEmpty()
+	@IsString()
+	userId: string
+}

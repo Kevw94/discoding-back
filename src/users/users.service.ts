@@ -1,9 +1,10 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { Filter, FindOneAndUpdateOptions, ObjectId, UpdateFilter } from 'mongodb';
-import { User } from './interfaces/users.interface';
-import { UpdateUserProfileDTO } from './dto/users.dto';
+import { RequestStatus, User } from './interfaces/users.interface';
+import { AddFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 import { flatten } from 'mongo-dot-notation';
+import { ServiceError } from '@/common/decorators/catch.decorator';
 
 @Injectable()
 export class UsersService {
@@ -72,5 +73,33 @@ export class UsersService {
 	async getUserById(id: string) {
 		const user = await this.usersRepository.findOne({ _id: new ObjectId(id), }, { projection: { _id: 1, "profile.password": 0 } })
 		return user
+	}
+
+	async addFriends(userId: string, body: AddFriendDTO) {
+		try {
+			const findFriend = await this.usersRepository.findOne({_id: new ObjectId(body.userId)})
+			if (findFriend === null)  throw new ServiceError('INTERNAL_SERVER_ERROR', 'Error 500');
+
+			const isRequestSent = await this.usersRepository.findOne({
+				$and: [
+					{ _id: new ObjectId(userId) },
+					{ sended_request:  body.userId }
+				]
+			})
+			// Prevent from multiple same friend request
+			if (isRequestSent !== null) throw new ServiceError('INTERNAL_SERVER_ERROR', 'Error 500');
+
+			const sendedRequest = await this.usersRepository.findOneAndUpdateUser({ _id: new ObjectId(userId) }, { $push: { sended_request: body.userId } }, {  returnDocument: 'after' })
+			const pendingRequest = {
+				userId: userId,
+				status: RequestStatus.PENDING
+			}
+
+			await this.usersRepository.findOneAndUpdateUser({ _id: new ObjectId(body.userId) }, { $push: { received_requests: pendingRequest } })
+
+			return sendedRequest
+		} catch (err) {
+			throw new ServiceError('INTERNAL_SERVER_ERROR', 'Error 500');
+		}
 	}
 }

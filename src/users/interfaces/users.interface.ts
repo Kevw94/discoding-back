@@ -22,6 +22,7 @@ export interface User {
 	activation_token?: string
 	reset_password?: string
 	received_requests?: Array<ReceivedRequest>
+	sended_request?: Array<string>
 }
 
 export interface UserProfile {

@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 import { Response } from 'express';
 import { JwtRequest } from '@/auth/interfaces/jwt.interface';
 import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
-import { UpdateUserProfileDTO } from './dto/users.dto';
+import { AddFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -34,6 +34,12 @@ export class UsersController {
 	async getUserById(@Param('id') id: string, @Res() res: Response) {
 		const user = await this.usersService.getUserById(id)
 		return res.status(200).json({ status: 'ok', user});
+	}
+
+	@Post('addFriends')
+	async addFriends(@Res() res: Response, @Body() body: AddFriendDTO, @Req() req: JwtRequest,) {
+		const listRequest = await this.usersService.addFriends(req.user.userId, body)
+		return res.status(201).json({ status: 'ok', listRequest});
 	}
 
 }
