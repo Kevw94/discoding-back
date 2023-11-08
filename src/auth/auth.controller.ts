@@ -29,7 +29,8 @@ export class AuthController {
 	@UseGuards(JwtAuthGuard)
 	@Get('me')
 	async getMe(@Request() req: JwtRequest, @Res() res: Response) {
-		return res.status(200).json(req.user);
+		const currentUser = await this.authService.retrieveCurrentUser(req.user.userId)
+		return res.status(200).json({ status: 'ok', user: currentUser });
 	}
 
 	@Post('activate')
