@@ -48,7 +48,7 @@ export class UsersService {
 
 	async getAllUsers() {
 		return this.usersRepository.findMany({}, {
-			projection: { _id: 0, "profile.password": 0 }
+			projection: { _id: 1, "profile.password": 0 }
 		});
 	}
 
@@ -65,7 +65,7 @@ export class UsersService {
 				{ "profile.email": new RegExp(search) }
 			]
 		};
-		const users = (await this.usersRepository.findMany(query, {projection: { _id: 0, "profile.password": 0}}))
+		const users = (await this.usersRepository.findMany(query, {projection: { _id: 1, "profile.password": 0}}))
 		return users
 	}
 }
