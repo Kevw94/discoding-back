@@ -2,7 +2,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { Filter, FindOneAndUpdateOptions, ObjectId, UpdateFilter } from 'mongodb';
 import { RequestStatus, User } from './interfaces/users.interface';
-import { AcceptFriendDTO, AddFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
+import { AcceptFriendDTO, AddFriendDTO, DeclineFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 import { flatten } from 'mongo-dot-notation';
 import { ServiceError } from '@/common/decorators/catch.decorator';
 
@@ -116,5 +116,15 @@ export class UsersService {
 		);
 
 		return acceptFriend
+	}
+
+	async declineFriend(userId: string, body: DeclineFriendDTO) {
+		const declineFriend = await this.usersRepository.findOneAndUpdateUser(
+			{ _id: new ObjectId(userId), "received_requests.userId": body.userId },
+			{ $set: { "received_requests.$.status": RequestStatus.DENIED } },
+			{ returnDocument: 'after', projection: { _id: 1, "profile.password": 0} }
+		)
+
+		return declineFriend
 	}
 }

@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 import { Response } from 'express';
 import { JwtRequest } from '@/auth/interfaces/jwt.interface';
 import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
-import { AddFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
+import { AddFriendDTO, DeclineFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -37,14 +37,20 @@ export class UsersController {
 	}
 
 	@Post('addFriends')
-	async addFriends(@Res() res: Response, @Body() body: AddFriendDTO, @Req() req: JwtRequest,) {
+	async addFriends(@Res() res: Response, @Body() body: AddFriendDTO, @Req() req: JwtRequest) {
 		const listRequest = await this.usersService.addFriends(req.user.userId, body)
 		return res.status(201).json({ status: 'ok', listRequest});
 	}
 
 	@Post('acceptFriend')
-	async acceptFriend(@Res() res: Response, @Body() body: AddFriendDTO, @Req() req: JwtRequest,) {
+	async acceptFriend(@Res() res: Response, @Body() body: AddFriendDTO, @Req() req: JwtRequest) {
 		const listFriends = await this.usersService.acceptFriend(req.user.userId, body)
+		return res.status(201).json({ status: 'ok', listFriends});
+	}
+
+	@Post('declineFriend')
+	async declineFriend(@Res() res: Response, @Body() body: DeclineFriendDTO, @Req() req: JwtRequest) {
+		const listFriends = await this.usersService.declineFriend(req.user.userId, body)
 		return res.status(201).json({ status: 'ok', listFriends});
 	}
 

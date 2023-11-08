@@ -65,3 +65,9 @@ export class AcceptFriendDTO {
 	@IsString()
 	userId: string
 }
+
+export class DeclineFriendDTO {
+	@IsNotEmpty()
+	@IsString()
+	userId: string
+}
