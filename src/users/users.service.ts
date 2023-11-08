@@ -2,6 +2,8 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { Filter, FindOneAndUpdateOptions, ObjectId, UpdateFilter } from 'mongodb';
 import { User } from './interfaces/users.interface';
+import { UpdateUserProfileDTO } from './dto/users.dto';
+import { flatten } from 'mongo-dot-notation';
 
 @Injectable()
 export class UsersService {
@@ -48,5 +50,11 @@ export class UsersService {
 		return this.usersRepository.findMany({}, {
 			projection: { _id: 0, "profile.password": 0 }
 		});
+	}
+
+	async updateUserProfile(userId: string, body: UpdateUserProfileDTO) {
+		const update = flatten(body);
+		const query = { _id: new ObjectId(userId) };
+		await this.usersRepository.updateOneUser(query, update);
 	}
 }

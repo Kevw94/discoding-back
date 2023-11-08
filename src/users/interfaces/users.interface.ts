@@ -5,22 +5,29 @@ export enum Status {
 	INACTIVE = 1
 }
 
+export enum RequestStatus {
+	PENDING = 0,
+	ACCEPTED = 1,
+	DENIED = 2
+}
+
 export interface User {
 	_id?: ObjectId
 	profile?: UserProfile;
 	is_active?: boolean
 	status?: Status
-	bio?: string
 	created_at?: Date
-	profile_pricture?: string
 	users_blocked?: Array<ObjectId>
 	friends?: Array<ObjectId>
 	activation_token?: string
 	reset_password?: string
+	received_requests?: Array<RequestStatus>
 }
 
 export interface UserProfile {
 	username?: string;
 	email?: string;
 	password?: string;
+	bio?: string
+	profile_pricture?: string
 }
