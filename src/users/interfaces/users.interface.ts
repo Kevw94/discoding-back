@@ -21,7 +21,7 @@ export interface User {
 	friends?: Array<ObjectId>
 	activation_token?: string
 	reset_password?: string
-	received_requests?: Array<RequestStatus>
+	received_requests?: Array<ReceivedRequest>
 }
 
 export interface UserProfile {
@@ -29,5 +29,10 @@ export interface UserProfile {
 	email?: string;
 	password?: string;
 	bio?: string
-	profile_pricture?: string
+	profile_picture?: string
+}
+
+export interface ReceivedRequest {
+	userId: string
+	status: RequestStatus
 }
