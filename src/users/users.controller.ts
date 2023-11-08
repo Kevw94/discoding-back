@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Request, UseGuards, Patch, Req, Body, Query, Post } from '@nestjs/common';
+import { Controller, Get, Res, Request, UseGuards, Patch, Req, Body, Query, Post, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Jwt } from '@/common/decorators/jwt.decorator';
 import { ObjectId } from 'mongodb';
@@ -25,9 +25,15 @@ export class UsersController {
 	}
 
 	@Get('find')
-	async findOneUser(@Query('search') search: string  , @Req() req: JwtRequest, @Res() res: Response) {
+	async findOneUser(@Query('search') search: string, @Res() res: Response) {
 		const users = await this.usersService.searchUser(search);
 		return res.status(200).json({ status: 'ok', users});
+	}
+
+	@Get(':id')
+	async getUserById(@Param('id') id: string, @Res() res: Response) {
+		const user = await this.usersService.getUserById(id)
+		return res.status(200).json({ status: 'ok', user});
 	}
 
 }

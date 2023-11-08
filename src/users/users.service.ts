@@ -68,4 +68,9 @@ export class UsersService {
 		const users = (await this.usersRepository.findMany(query, {projection: { _id: 1, "profile.password": 0}}))
 		return users
 	}
+
+	async getUserById(id: string) {
+		const user = await this.usersRepository.findOne({ _id: new ObjectId(id), }, { projection: { _id: 1, "profile.password": 0 } })
+		return user
+	}
 }
