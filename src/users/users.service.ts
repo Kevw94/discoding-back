@@ -10,7 +10,7 @@ export class UsersService {
 	constructor(
 		@Inject(forwardRef(() => UsersRepository))
 		private usersRepository: UsersRepository,
-	) {}
+	) { }
 
 	async tryRegisterUser(user: User) {
 		return this.usersRepository.createUser(user);
@@ -56,5 +56,16 @@ export class UsersService {
 		const update = flatten(body);
 		const query = { _id: new ObjectId(userId) };
 		await this.usersRepository.updateOneUser(query, update);
+	}
+
+	async searchUser(search: string) {
+		const query = {
+			$or: [
+				{ "profil.username": new RegExp(search) },
+				{ "profile.email": new RegExp(search) }
+			]
+		};
+		const users = (await this.usersRepository.findMany(query, {projection: { _id: 0, "profile.password": 0}}))
+		return users
 	}
 }
