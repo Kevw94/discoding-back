@@ -20,8 +20,8 @@ export class UsersController {
 
 	@Patch("profile")
 	async updateUserProfile(@Req() req: JwtRequest, @Body() body: UpdateUserProfileDTO, @Res() res: Response) {
-		const newProfile = await this.usersService.updateUserProfile(req.user.userId, body);
-		return res.status(200).json({ status: 'ok', profile: newProfile });
+		await this.usersService.updateUserProfile(req.user.userId, body);
+		return res.status(200).json({ status: 'ok' });
 	}
 
 }
