@@ -43,7 +43,7 @@ export class UsersService {
 	async getUserProfile(userId: string) {
 		return this.usersRepository.findOne(
 			{ _id: new ObjectId(userId) },
-			{ projection: { _id: 0 } },
+			{ projection: { _id: 1 } },
 		);
 	}
 
