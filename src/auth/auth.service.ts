@@ -4,7 +4,7 @@ import { UsersService } from '@/users/users.service';
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { credentialsPassword } from './utils/auth.security';
 import { generateCodeToken, verifyPassword } from '@/common/helpers/string.helper';
-import { DTOActivationToken, DTOAuthSignin, DTOAuthSignup } from './dto/auth.dto';
+import { DTOActivationToken, DTOAskResetPassword, DTOAuthSignin, DTOAuthSignup, DTOResetPassword } from './dto/auth.dto';
 import { AuthEventEmitter } from './events/auth.events';
 import { JwtService } from '@nestjs/jwt';
 import { ObjectId, UpdateFilter } from 'mongodb';
@@ -103,5 +103,14 @@ export class AuthService {
 		await this.usersService.findOneAndUpdateUser({ _id: isUserExists._id }, { $set: { reset_password: tokenToReset } })
 
 		this.authEventEmitter.askResetPassword(email, tokenToReset)
+	}
+
+	async resetPassword(body: DTOResetPassword, token: string) {
+		if (body.password !== body.confirmPassword) throw new ServiceError('BAD_REQUEST', 'Error 400');
+
+		const hashedPassword = await credentialsPassword(body.password);
+
+		const resetPassword = await this.usersService.findOneAndUpdateUser({ reset_password: token }, { $set: { "profile.password": hashedPassword }, $unset: { reset_password: "" } })
+		if (resetPassword === null) throw new ServiceError('BAD_REQUEST', 'Error 400');
 	}
 }
