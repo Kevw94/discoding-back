@@ -7,7 +7,7 @@ import { generateCodeToken, verifyPassword } from '@/common/helpers/string.helpe
 import { DTOActivationToken, DTOAuthSignin, DTOAuthSignup } from './dto/auth.dto';
 import { AuthEventEmitter } from './events/auth.events';
 import { JwtService } from '@nestjs/jwt';
-import { UpdateFilter } from 'mongodb';
+import { ObjectId, UpdateFilter } from 'mongodb';
 
 
 @Injectable()
@@ -82,9 +82,16 @@ export class AuthService {
 			$set: { is_active: true },
 		};
 		const data = await this.usersService.findOneAndUpdateUser(query, update);
-		console.log("data", data);
+	}
 
-
-		// if (data.value === null) throw new ServiceError('BAD_REQUEST', 'Error 400');
+	async retrieveCurrentUser(userId: string) {
+		const user = await this.usersService.getUserProfile(userId)
+		if (user == null)
+			throw new ServiceError(
+				'UNAUTHORIZED',
+				'You do not have the rights to access this ressource.',
+			);
+		const formattedUser = { id: user._id, profile: user.profile, ...user};
+		return formattedUser;
 	}
 }
