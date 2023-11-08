@@ -2,7 +2,8 @@ import { EnvConfiguration } from './interfaces/config.interface';
 
 export const config: EnvConfiguration  = {
 	app: {
-		port: process.env.PORT
+		port: process.env.PORT,
+		baseUrl: process.env.BASE_URL
 	},
 	mongo: {
 		uri: process.env.MONGO_URI,

@@ -1,4 +1,5 @@
-import { MailerAskToken } from '@/external-module/mailjet/interfaces/mailjet.interface';
+import { config } from '@/config/config';
+import { MailerAskResetPassword, MailerAskToken } from '@/external-module/mailjet/interfaces/mailjet.interface';
 import { MailjetService } from '@/external-module/mailjet/mailjet.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
@@ -20,6 +21,16 @@ export class MailjetListeners {
 			recipients: [{ Email: email }],
 			args: { code: code },
 		});
-		this.mailjetService.tyActivateAccount(payload);
+	}
+
+	@OnEvent('Events.askResetPassword')
+	async handleAskResetPassword(payload: MailerAskResetPassword) {
+		const urlReset =  `${config.app.baseUrl}:${config.app.port}/reset-password?token=${payload.tokenUrl}`
+		const email = payload.email
+		this.mailjetService.sendUniversalEmail({
+			templateId: 5289038,
+			recipients: [{ Email: email }],
+			args: { url: urlReset },
+		});
 	}
 }

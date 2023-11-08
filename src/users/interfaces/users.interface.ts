@@ -16,6 +16,7 @@ export interface User {
 	users_blocked?: Array<ObjectId>
 	friends?: Array<ObjectId>
 	activation_token?: string
+	reset_password?: string
 }
 
 export interface UserProfile {

@@ -7,3 +7,13 @@ export class MailjetAskToken {
 		this.token = token;
 	}
 }
+
+export class MailjetAskResetPassword {
+	email: string;
+	tokenUrl: string;
+
+	constructor(email: string, tokenUrl: string) {
+		this.email = email;
+		this.tokenUrl = tokenUrl;
+	}
+}

@@ -36,3 +36,22 @@ export class DTOActivationToken {
 	@Length(6, 6)
 	public activationToken: string;
 }
+
+export class DTOAskResetPassword {
+	@IsNotEmpty()
+	@IsString()
+	@Length(8, 127)
+	public email: string;
+}
+
+export class DTOResetPassword {
+	@IsNotEmpty()
+	@IsString()
+	@Length(8, 40)
+	public password: string;
+
+	@IsNotEmpty()
+	@IsString()
+	@Length(8, 40)
+	public confirmPassword: string;
+}
