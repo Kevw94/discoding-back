@@ -42,4 +42,10 @@ export class UsersController {
 		return res.status(201).json({ status: 'ok', listRequest});
 	}
 
+	@Post('acceptFriend')
+	async acceptFriend(@Res() res: Response, @Body() body: AddFriendDTO, @Req() req: JwtRequest,) {
+		const listFriends = await this.usersService.acceptFriend(req.user.userId, body)
+		return res.status(201).json({ status: 'ok', listFriends});
+	}
+
 }
