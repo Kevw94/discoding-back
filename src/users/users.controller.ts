@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 import { Response } from 'express';
 import { JwtRequest } from '@/auth/interfaces/jwt.interface';
 import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
-import { AddFriendDTO, DeclineFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
+import { AddFriendDTO, DeclineFriendDTO, DeleteFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -54,4 +54,9 @@ export class UsersController {
 		return res.status(201).json({ status: 'ok', listFriends});
 	}
 
+	@Post('deleteFriend')
+	async deleteFriend(@Res() res: Response, @Body() body: DeleteFriendDTO, @Req() req: JwtRequest) {
+		const listFriends = await this.usersService.deleteFriend(req.user.userId, body)
+		return res.status(201).json({ status: 'ok', listFriends});
+	}
 }

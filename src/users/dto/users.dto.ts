@@ -71,3 +71,9 @@ export class DeclineFriendDTO {
 	@IsString()
 	userId: string
 }
+
+export class DeleteFriendDTO {
+	@IsNotEmpty()
+	@IsString()
+	userId: string
+}

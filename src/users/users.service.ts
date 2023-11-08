@@ -2,7 +2,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { Filter, FindOneAndUpdateOptions, ObjectId, UpdateFilter } from 'mongodb';
 import { RequestStatus, User } from './interfaces/users.interface';
-import { AcceptFriendDTO, AddFriendDTO, DeclineFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
+import { AcceptFriendDTO, AddFriendDTO, DeclineFriendDTO, DeleteFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 import { flatten } from 'mongo-dot-notation';
 import { ServiceError } from '@/common/decorators/catch.decorator';
 
@@ -126,5 +126,22 @@ export class UsersService {
 		)
 
 		return declineFriend
+	}
+
+
+	async deleteFriend(userId: string, body: DeleteFriendDTO) {
+		const currentUserDeleteFriend = await this.usersRepository.findOneAndUpdateUser(
+			{ _id: new ObjectId(userId) },
+			{ $pull: { friends: new ObjectId(body.userId) } },
+			{ returnDocument: 'after', projection: { _id: 1, "profile.password": 0} }
+		)
+
+		await this.usersRepository.findOneAndUpdateUser(
+			{ _id: new ObjectId(body.userId) },
+			{ $pull: { friends: new ObjectId(userId) } },
+			{ returnDocument: 'after', projection: { _id: 1, "profile.password": 0} }
+		)
+
+		return currentUserDeleteFriend
 	}
 }
