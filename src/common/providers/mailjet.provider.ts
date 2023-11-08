@@ -1,5 +1,5 @@
-import { MailerAskToken } from '@/mailjet/interfaces/mailjet.interface';
-import { MailjetService } from '@/mailjet/mailjet.service';
+import { MailerAskToken } from '@/external-module/mailjet/interfaces/mailjet.interface';
+import { MailjetService } from '@/external-module/mailjet/mailjet.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
@@ -13,6 +13,13 @@ export class MailjetListeners {
 
 	@OnEvent('Events.askActivationToken')
 	async handleaskActivationToken(payload: MailerAskToken) {
+		const code =  payload.token
+		const email = payload.email
+		this.mailjetService.sendUniversalEmail({
+			templateId: 5287411,
+			recipients: [{ Email: email }],
+			args: { code: code },
+		});
 		this.mailjetService.tyActivateAccount(payload);
 	}
 }

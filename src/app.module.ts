@@ -11,7 +11,6 @@ import { RolesModule } from './roles/roles.module';
 import { ConvosModule } from './convos/convos.module';
 import { UsersServersModule } from './users-servers/users-servers.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { MailjetModule } from './mailjet/mailjet.module';
 
 @Module({
 	imports: [
@@ -25,7 +24,6 @@ import { MailjetModule } from './mailjet/mailjet.module';
 		ConvosModule,
 		UsersServersModule,
 		EventEmitterModule.forRoot(),
-		MailjetModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

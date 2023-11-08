@@ -11,4 +11,9 @@ export const config: EnvConfiguration  = {
 	jwt: {
 		secret: process.env.JWT_SECRET,
 	},
+	mailjet: {
+		user: process.env.MAILJET_USER,
+		pass: process.env.MAILJET_PASS,
+		noreply: process.env.MAILJET_NOREPLY,
+	},
 }

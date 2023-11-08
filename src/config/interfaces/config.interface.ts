@@ -2,6 +2,7 @@ export interface EnvConfiguration {
 	app: Configuration.Application;
 	mongo: Configuration.MongoDB;
 	jwt: Configuration.JWT;
+	mailjet: Configuration.Mailjet;
 }
 
 
@@ -18,5 +19,11 @@ export namespace Configuration {
 
 	export interface JWT {
 		secret: string;
+	}
+
+	export interface Mailjet {
+		user: string;
+		pass: string;
+		noreply: string;
 	}
 }
