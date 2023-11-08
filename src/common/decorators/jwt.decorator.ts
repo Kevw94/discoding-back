@@ -5,6 +5,8 @@ import { JwtPayload } from '@/auth/interfaces/jwt.interface';
 export const Jwt = createParamDecorator((_: unknown, context: ExecutionContext) => {
 	try {
 		const args = context.getArgs();
+		console.log(args[0].user);
+
 		const user = <JwtPayload>args[0].user;
 		return user.id;
 	} catch (e) {

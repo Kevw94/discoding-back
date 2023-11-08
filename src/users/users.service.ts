@@ -43,4 +43,10 @@ export class UsersService {
 			{ projection: { _id: 0 } },
 		);
 	}
+
+	async getAllUsers() {
+		return this.usersRepository.findMany({}, {
+			projection: { _id: 0, "profile.password": 0 }
+		});
+	}
 }
