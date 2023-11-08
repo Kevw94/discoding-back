@@ -14,3 +14,8 @@ export interface EmailRecipient {
 	Email: string;
 	Name?: string;
 }
+
+export interface MailerAskResetPassword {
+	email: string;
+	tokenUrl: string;
+}

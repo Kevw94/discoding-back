@@ -10,6 +10,7 @@ export namespace Configuration {
 
 	export interface Application {
 		port: string;
+		baseUrl: string
 	}
 
 	export interface MongoDB {

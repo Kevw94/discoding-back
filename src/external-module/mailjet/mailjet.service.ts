@@ -4,9 +4,6 @@ import { Client } from 'node-mailjet';
 
 @Injectable()
 export class MailjetService {
-	async tyActivateAccount(payload: MailerAskToken) {
-		console.log('payload activate account', payload);
-	}
 	constructor(@Inject('MAILJET_CLIENT') private mailjet: Client) {}
 
 	async sendUniversalEmail(options: EmailConstructorOptions) {

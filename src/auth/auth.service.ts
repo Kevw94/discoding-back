@@ -94,4 +94,14 @@ export class AuthService {
 		const formattedUser = { id: user._id, profile: user.profile, ...user};
 		return formattedUser;
 	}
+
+	async askResetPassword(email: string) {
+		const isUserExists = await this.usersService.isUserExists(email);
+		if (isUserExists === null) throw new ServiceError('BAD_REQUEST', 'Error 400');
+		const tokenToReset = generateCodeToken();
+
+		await this.usersService.findOneAndUpdateUser({ _id: isUserExists._id }, { $set: { reset_password: tokenToReset } })
+
+		this.authEventEmitter.askResetPassword(email, tokenToReset)
+	}
 }
