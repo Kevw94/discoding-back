@@ -86,6 +86,8 @@ export class AuthService {
 
 	async retrieveCurrentUser(userId: string) {
 		const user = await this.usersService.getUserProfile(userId)
+		console.log(user);
+
 		if (user == null)
 			throw new ServiceError(
 				'UNAUTHORIZED',

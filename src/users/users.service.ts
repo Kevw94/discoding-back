@@ -5,12 +5,15 @@ import { RequestStatus, User } from './interfaces/users.interface';
 import { AcceptFriendDTO, AddFriendDTO, DeclineFriendDTO, DeleteFriendDTO, UpdateUserProfileDTO } from './dto/users.dto';
 import { flatten } from 'mongo-dot-notation';
 import { ServiceError } from '@/common/decorators/catch.decorator';
+import { NotificationsGateway } from '@/common/gateways/notifications.gateway';
 
 @Injectable()
 export class UsersService {
 	constructor(
 		@Inject(forwardRef(() => UsersRepository))
 		private usersRepository: UsersRepository,
+		@Inject(forwardRef(() => NotificationsGateway))
+		private notificationGateway: NotificationsGateway
 	) { }
 
 	async tryRegisterUser(user: User) {
@@ -95,6 +98,9 @@ export class UsersService {
 			}
 
 			await this.usersRepository.findOneAndUpdateUser({ _id: new ObjectId(body.userId) }, { $push: { received_requests: pendingRequest } })
+
+			// this.notificationGateway.sendFriendNotification()
+			this.notificationGateway.server.to("aze").emit('new-friend');
 
 			return sendedRequest
 		} catch (err) {
