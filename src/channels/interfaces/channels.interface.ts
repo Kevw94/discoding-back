@@ -10,7 +10,7 @@ export interface Channel {
 	name?: string
 	type?: TypeChannel
 	server_id?: ObjectId | string
-	content?: []
+	content?: Array<string>
 	is_private?: boolean
-	access_role: []
+	access_role?: []
 }
