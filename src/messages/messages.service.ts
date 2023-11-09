@@ -18,4 +18,9 @@ export class MessagesService {
 
 		return messageToRetreive
 	}
+
+	async getMessagesByConvId(idConv: string) {
+		const messages = await this.messagesRepository.findMany({id_conv: idConv})
+		return messages
+	}
 }
