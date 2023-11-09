@@ -13,4 +13,5 @@ export interface Message {
 	content?: string
 	created_at?: Date
 	is_modified?: boolean
+	id_conv?: string
 }

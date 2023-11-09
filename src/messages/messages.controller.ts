@@ -1,4 +1,18 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { MessagesService } from './messages.service';
+import { JwtRequest } from '@/auth/interfaces/jwt.interface';
+import { CreateMessageDTO } from './dto/messages.dto';
+import { Response } from 'express';
+import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 
 @Controller('messages')
-export class MessagesController {}
+@UseGuards(JwtAuthGuard)
+export class MessagesController {
+	constructor(private readonly messagesService: MessagesService) {}
+
+	@Post("create")
+	async createMessage(@Req() req: JwtRequest, @Res() res: Response, @Body() body: CreateMessageDTO) {
+		const newMessage = await this.messagesService.createMessage(req.user.userId, body)
+		return res.status(201).json({ status: 'ok', newMessage: newMessage});
+	}
+}
