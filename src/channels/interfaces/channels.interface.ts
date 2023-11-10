@@ -2,15 +2,17 @@ import { ObjectId } from 'mongodb';
 
 export enum TypeChannel {
 	VOCAL = 0,
-	MESSAGE = 1
+	MESSAGE = 1,
 }
 
 export interface Channel {
-	_id?: ObjectId
-	name?: string
-	type?: TypeChannel
-	server_id?: ObjectId | string
-	content?: Array<string>
-	is_private?: boolean
-	access_role?: []
+
+	_id?: ObjectId;
+	name?: string;
+	type?: TypeChannel;
+	server_id?: ObjectId | string;
+	content?: Array<string>;
+	is_private?: boolean;
+	access_role?: [];
 }
+

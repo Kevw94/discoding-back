@@ -3,12 +3,20 @@ import { User } from '@/users/interfaces/users.interface';
 import { UsersService } from '@/users/users.service';
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { credentialsPassword } from './utils/auth.security';
-import { generateCodeToken, verifyPassword } from '@/common/helpers/string.helper';
-import { DTOActivationToken, DTOAskResetPassword, DTOAuthSignin, DTOAuthSignup, DTOResetPassword } from './dto/auth.dto';
+import {
+	generateCodeToken,
+	verifyPassword,
+} from '@/common/helpers/string.helper';
+import {
+	DTOActivationToken,
+	DTOAskResetPassword,
+	DTOAuthSignin,
+	DTOAuthSignup,
+	DTOResetPassword,
+} from './dto/auth.dto';
 import { AuthEventEmitter } from './events/auth.events';
 import { JwtService } from '@nestjs/jwt';
 import { ObjectId, UpdateFilter } from 'mongodb';
-
 
 @Injectable()
 export class AuthService {
@@ -39,21 +47,28 @@ export class AuthService {
 		};
 
 		try {
-			const tryCreateUser = await this.usersService.tryRegisterUser(newUser);
+			const tryCreateUser =
+				await this.usersService.tryRegisterUser(newUser);
 			if (!tryCreateUser.acknowledged)
 				throw new ServiceError('INTERNAL_SERVER_ERROR', 'Error 500');
 		} catch (err) {
 			throw new ServiceError('INTERNAL_SERVER_ERROR', 'Error 500');
 		}
 
-		this.authEventEmitter.askActivationToken(email, newUser.activation_token);
+		this.authEventEmitter.askActivationToken(
+			email,
+			newUser.activation_token,
+		);
 	}
 
 	async validateUser(email: string, password: string) {
 		const user = await this.usersService.findOneUser(email);
 		if (user === null) return null;
 
-		const isGoodPassword = await verifyPassword(user.profile.password, password);
+		const isGoodPassword = await verifyPassword(
+			user.profile.password,
+			password,
+		);
 
 		if (user && isGoodPassword) {
 			const { password, ...result } = user.profile;
@@ -64,9 +79,11 @@ export class AuthService {
 
 	async signin(user: DTOAuthSignin) {
 		const userExists = await this.usersService.findOneUser(user.email);
-		if (userExists === null) throw new ServiceError('BAD_REQUEST', 'Error 400');
+		if (userExists === null)
+			throw new ServiceError('BAD_REQUEST', 'Error 400');
 
-		if (!userExists.is_active) throw new ServiceError('BAD_REQUEST', 'Error 400');
+		if (!userExists.is_active)
+			throw new ServiceError('BAD_REQUEST', 'Error 400');
 
 		const payload = { email: user.email, id: userExists._id };
 		return {
@@ -81,36 +98,51 @@ export class AuthService {
 			$unset: { activation_token: 1 },
 			$set: { is_active: true },
 		};
-		const data = await this.usersService.findOneAndUpdateUser(query, update);
+		const data = await this.usersService.findOneAndUpdateUser(
+			query,
+			update,
+		);
 	}
 
 	async retrieveCurrentUser(userId: string) {
-		const user = await this.usersService.getUserProfile(userId)
+		const user = await this.usersService.getUserProfile(userId);
 		if (user == null)
 			throw new ServiceError(
 				'UNAUTHORIZED',
 				'You do not have the rights to access this ressource.',
 			);
-		const formattedUser = { id: user._id, profile: user.profile, ...user};
+		const formattedUser = { id: user._id, profile: user.profile, ...user };
 		return formattedUser;
 	}
 
 	async askResetPassword(email: string) {
 		const isUserExists = await this.usersService.isUserExists(email);
-		if (isUserExists === null) throw new ServiceError('BAD_REQUEST', 'Error 400');
+		if (isUserExists === null)
+			throw new ServiceError('BAD_REQUEST', 'Error 400');
 		const tokenToReset = generateCodeToken();
 
-		await this.usersService.findOneAndUpdateUser({ _id: isUserExists._id }, { $set: { reset_password: tokenToReset } })
+		await this.usersService.findOneAndUpdateUser(
+			{ _id: isUserExists._id },
+			{ $set: { reset_password: tokenToReset } },
+		);
 
-		this.authEventEmitter.askResetPassword(email, tokenToReset)
+		this.authEventEmitter.askResetPassword(email, tokenToReset);
 	}
 
 	async resetPassword(body: DTOResetPassword, token: string) {
-		if (body.password !== body.confirmPassword) throw new ServiceError('BAD_REQUEST', 'Error 400');
+		if (body.password !== body.confirmPassword)
+			throw new ServiceError('BAD_REQUEST', 'Error 400');
 
 		const hashedPassword = await credentialsPassword(body.password);
 
-		const resetPassword = await this.usersService.findOneAndUpdateUser({ reset_password: token }, { $set: { "profile.password": hashedPassword }, $unset: { reset_password: "" } })
-		if (resetPassword === null) throw new ServiceError('BAD_REQUEST', 'Error 400');
+		const resetPassword = await this.usersService.findOneAndUpdateUser(
+			{ reset_password: token },
+			{
+				$set: { 'profile.password': hashedPassword },
+				$unset: { reset_password: '' },
+			},
+		);
+		if (resetPassword === null)
+			throw new ServiceError('BAD_REQUEST', 'Error 400');
 	}
 }

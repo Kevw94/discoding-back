@@ -1,9 +1,9 @@
 import { EnvConfiguration } from './interfaces/config.interface';
 
-export const config: EnvConfiguration  = {
+export const config: EnvConfiguration = {
 	app: {
 		port: process.env.PORT,
-		baseUrl: process.env.BASE_URL
+		baseUrl: process.env.BASE_URL,
 	},
 	mongo: {
 		uri: process.env.MONGO_URI,
@@ -17,4 +17,4 @@ export const config: EnvConfiguration  = {
 		pass: process.env.MAILJET_PASS,
 		noreply: process.env.MAILJET_NOREPLY,
 	},
-}
+};

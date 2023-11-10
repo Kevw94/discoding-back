@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import {
+	HttpException,
+	HttpStatus,
+	ExceptionFilter,
+	Catch,
+	ArgumentsHost,
+} from '@nestjs/common';
 import { Response } from 'express';
 
 interface ErrorResponse {

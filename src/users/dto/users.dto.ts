@@ -1,7 +1,15 @@
-import { IsArray, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
+import {
+	IsArray,
+	IsEnum,
+	IsNotEmpty,
+	IsObject,
+	IsOptional,
+	IsString,
+	Length,
+	ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { RequestStatus } from '../interfaces/users.interface';
-
 
 export class UserProfileDTO {
 	@IsNotEmpty()
@@ -26,10 +34,10 @@ export class UserProfileDTO {
 export class ReceivedRequestDTO {
 	@IsNotEmpty()
 	@IsString()
-	userId: string
+	userId: string;
 
 	@IsEnum(RequestStatus)
-	status: RequestStatus
+	status: RequestStatus;
 }
 
 export class UpdateUserProfileDTO {
@@ -41,39 +49,39 @@ export class UpdateUserProfileDTO {
 
 	@IsOptional()
 	@IsString({ each: true })
-	users_blocked: Array<string>
+	users_blocked: Array<string>;
 
 	@IsOptional()
 	@IsString({ each: true })
-	friends: Array<string>
+	friends: Array<string>;
 
 	@IsOptional()
 	@ValidateNested()
 	@IsArray()
 	@Type(() => ReceivedRequestDTO)
-	received_requests: Array<ReceivedRequestDTO>
+	received_requests: Array<ReceivedRequestDTO>;
 }
 
 export class AddFriendDTO {
 	@IsNotEmpty()
 	@IsString()
-	userId: string
+	userId: string;
 }
 
 export class AcceptFriendDTO {
 	@IsNotEmpty()
 	@IsString()
-	userId: string
+	userId: string;
 }
 
 export class DeclineFriendDTO {
 	@IsNotEmpty()
 	@IsString()
-	userId: string
+	userId: string;
 }
 
 export class DeleteFriendDTO {
 	@IsNotEmpty()
 	@IsString()
-	userId: string
+	userId: string;
 }

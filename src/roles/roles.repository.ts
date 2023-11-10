@@ -8,5 +8,4 @@ export class RolesRepository {
 	get roles() {
 		return this.db.collection<Role>('roles');
 	}
-
 }

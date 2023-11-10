@@ -1,5 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { EmailConstructorOptions, MailerAskToken } from './interfaces/mailjet.interface';
+import {
+	EmailConstructorOptions,
+	MailerAskToken,
+} from './interfaces/mailjet.interface';
 import { Client } from 'node-mailjet';
 
 @Injectable()
@@ -8,8 +11,10 @@ export class MailjetService {
 
 	async sendUniversalEmail(options: EmailConstructorOptions) {
 		try {
-			if (options.templateId === undefined) throw new Error('Missing templateId');
-			if (options.recipients === undefined) throw new Error('Missing recipients');
+			if (options.templateId === undefined)
+				throw new Error('Missing templateId');
+			if (options.recipients === undefined)
+				throw new Error('Missing recipients');
 
 			await this.mailjet.post('send', { version: 'v3.1' }).request({
 				Messages: [
@@ -21,8 +26,6 @@ export class MailjetService {
 					},
 				],
 			});
-
-
 		} catch (error) {
 			Logger.error(error);
 		}

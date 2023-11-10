@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	Post,
+	Req,
+	Res,
+	UseGuards,
+} from '@nestjs/common';
+
 import { MessagesService } from './messages.service';
 import { JwtRequest } from '@/auth/interfaces/jwt.interface';
 import { CreateMessageDTO } from './dto/messages.dto';
@@ -9,16 +19,23 @@ import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 export class MessagesController {
 	constructor(private readonly messagesService: MessagesService) {}
-
-	@Get(":id")
+  
+	@Get(':id')
 	async getMessagesByConvId(@Param('id') id: string, @Res() res: Response) {
-		const messages = await this.messagesService.getMessagesByConvId(id)
-		return res.status(201).json({ status: 'ok', messages: messages});
+		const messages = await this.messagesService.getMessagesByConvId(id);
+		return res.status(201).json({ status: 'ok', messages: messages });
 	}
 
-	@Post("create")
-	async createMessage(@Req() req: JwtRequest, @Res() res: Response, @Body() body: CreateMessageDTO) {
-		const newMessage = await this.messagesService.createMessage(req.user.userId, body)
-		return res.status(201).json({ status: 'ok', newMessage: newMessage});
+	@Post('create')
+	async createMessage(
+		@Req() req: JwtRequest,
+		@Res() res: Response,
+		@Body() body: CreateMessageDTO,
+	) {
+		const newMessage = await this.messagesService.createMessage(
+			req.user.userId,
+			body,
+		);
+		return res.status(201).json({ status: 'ok', newMessage: newMessage });
 	}
 }

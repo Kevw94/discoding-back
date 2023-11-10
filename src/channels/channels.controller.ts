@@ -19,6 +19,7 @@ import { CreateChannelDTO } from './dto/channels.dto';
 export class ChannelsController {
 	constructor(private readonly channelsService: ChannelsService) {}
 
+
 	@Get('')
 	async getChannels(@Res() res: Response) {
 		const channels = await this.channelsService.getAllChannels();

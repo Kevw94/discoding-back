@@ -4,4 +4,3 @@ export class CreateConvoDTO {
 	@IsNotEmpty()
 	@IsString()
 	public user_two: string;
-}
