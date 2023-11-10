@@ -13,5 +13,4 @@ export class CreateServerDTO {
 	@IsOptional()
 	@IsString()
 	public banner: string;
-
 }

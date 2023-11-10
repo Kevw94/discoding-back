@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Db, Filter, FindOneAndUpdateOptions, FindOptions, UpdateFilter } from 'mongodb';
+import {
+	Db,
+	Filter,
+	FindOneAndUpdateOptions,
+	FindOptions,
+	UpdateFilter,
+} from 'mongodb';
 import { Server } from './interfaces/servers.interface';
 @Injectable()
 export class ServersRepository {
@@ -13,7 +19,10 @@ export class ServersRepository {
 		return this.servers.insertOne(query);
 	}
 
-	async updateOneServer(query: Filter<Server>, update: Partial<Server> | UpdateFilter<Server>) {
+	async updateOneServer(
+		query: Filter<Server>,
+		update: Partial<Server> | UpdateFilter<Server>,
+	) {
 		return this.servers.updateOne(query, update);
 	}
 
@@ -25,7 +34,10 @@ export class ServersRepository {
 		return this.servers.findOneAndUpdate(query, update, options);
 	}
 
-	async findOne(query: Filter<Server>, options: FindOptions<Server> = undefined) {
+	async findOne(
+		query: Filter<Server>,
+		options: FindOptions<Server> = undefined,
+	) {
 		return this.servers.findOne(query, options);
 	}
 
@@ -33,12 +45,13 @@ export class ServersRepository {
 		const options = { projection: { _id: 1 } };
 		return this.servers.findOne(query, options);
 	}
-	async findMany(query: Filter<Server>, options: FindOptions<Server> = undefined) {
+	async findMany(
+		query: Filter<Server>,
+		options: FindOptions<Server> = undefined,
+	) {
 		return this.servers.find(query, options).toArray();
 	}
 	async getAllServers() {
 		return this.servers.find().toArray();
 	}
-
-
 }

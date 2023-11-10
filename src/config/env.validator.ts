@@ -4,9 +4,7 @@ dotenv.config();
 // \n compatible for macOS and Window
 import { EOL } from 'os';
 
-const envsToCheck = [
-	'PORT',
-];
+const envsToCheck = ['PORT'];
 
 const missing = [];
 for (const checked of envsToCheck) {

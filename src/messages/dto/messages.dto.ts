@@ -1,4 +1,11 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import {
+	IsBoolean,
+	IsEnum,
+	IsNotEmpty,
+	IsOptional,
+	IsString,
+	Length,
+} from 'class-validator';
 import { TypeMessage } from '../interfaces/messages.interface';
 
 export class CreateMessageDTO {
@@ -16,6 +23,5 @@ export class CreateMessageDTO {
 
 	@IsNotEmpty()
 	@IsString()
-	id_conv: string
-
+	id_conv: string;
 }

@@ -5,12 +5,10 @@ export interface EnvConfiguration {
 	mailjet: Configuration.Mailjet;
 }
 
-
 export namespace Configuration {
-
 	export interface Application {
 		port: string;
-		baseUrl: string
+		baseUrl: string;
 	}
 
 	export interface MongoDB {

@@ -7,6 +7,6 @@ import { DatabaseModule } from '@/external-module/database/mongo.module';
 @Module({
 	imports: [DatabaseModule],
 	controllers: [ConvosController],
-	providers: [ConvosService, ConvosRepository]
+	providers: [ConvosService, ConvosRepository],
 })
-export class ConvosModule { }
+export class ConvosModule {}
