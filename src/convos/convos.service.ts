@@ -19,12 +19,14 @@ export class ConvosService {
 			_id: newConv.insertedId,
 		});
 		return convToRetreive;
+
 	}
 
 	async getConvosByUser(userId: string) {
 		const convosUser = await this.convosRepository.findOne({
 			$or: [
 				{
+
 					user_one: userId,
 				},
 				{

@@ -6,6 +6,7 @@ import {
 	FindOptions,
 	UpdateFilter,
 } from 'mongodb';
+
 import { Convo } from './interfaces/convos.interface';
 @Injectable()
 export class ConvosRepository {
@@ -23,6 +24,7 @@ export class ConvosRepository {
 		query: Filter<Convo>,
 		update: Partial<Convo> | UpdateFilter<Convo>,
 	) {
+
 		return this.convos.updateOne(query, update);
 	}
 
@@ -38,6 +40,7 @@ export class ConvosRepository {
 		query: Filter<Convo>,
 		options: FindOptions<Convo> = undefined,
 	) {
+
 		return this.convos.findOne(query, options);
 	}
 
@@ -45,10 +48,12 @@ export class ConvosRepository {
 		const options = { projection: { _id: 1 } };
 		return this.convos.findOne(query, options);
 	}
+
 	async findMany(
 		query: Filter<Convo>,
 		options: FindOptions<Convo> = undefined,
 	) {
+
 		return this.convos.find(query, options).toArray();
 	}
 	async getAllconvos() {

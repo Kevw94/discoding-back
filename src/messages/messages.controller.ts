@@ -8,6 +8,7 @@ import {
 	Res,
 	UseGuards,
 } from '@nestjs/common';
+
 import { MessagesService } from './messages.service';
 import { JwtRequest } from '@/auth/interfaces/jwt.interface';
 import { CreateMessageDTO } from './dto/messages.dto';
@@ -18,7 +19,7 @@ import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 export class MessagesController {
 	constructor(private readonly messagesService: MessagesService) {}
-
+  
 	@Get(':id')
 	async getMessagesByConvId(@Param('id') id: string, @Res() res: Response) {
 		const messages = await this.messagesService.getMessagesByConvId(id);

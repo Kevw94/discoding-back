@@ -8,5 +8,6 @@ import { DatabaseModule } from '@/external-module/database/mongo.module';
 	imports: [DatabaseModule],
 	controllers: [ConvosController],
 	providers: [ConvosService, ConvosRepository],
+
 })
-export class ConvosModule {}
+export class ConvosModule { }

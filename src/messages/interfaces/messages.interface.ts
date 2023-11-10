@@ -15,3 +15,4 @@ export interface Message {
 	is_modified?: boolean;
 	id_conv?: string;
 }
+

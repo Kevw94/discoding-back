@@ -9,3 +9,4 @@ export class CreateChannelDTO {
 	@IsString()
 	server_id: string;
 }
+

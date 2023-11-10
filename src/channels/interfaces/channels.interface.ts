@@ -6,6 +6,7 @@ export enum TypeChannel {
 }
 
 export interface Channel {
+
 	_id?: ObjectId;
 	name?: string;
 	type?: TypeChannel;
@@ -14,3 +15,4 @@ export interface Channel {
 	is_private?: boolean;
 	access_role?: [];
 }
+

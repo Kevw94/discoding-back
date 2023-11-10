@@ -18,6 +18,15 @@ export class ChannelsService {
 		return channelToRetreive;
 	}
 
+	async getAllChannels() {
+		return this.channelssRepository.findMany(
+			{},
+			{
+				projection: { _id: 1, 'profile.password': 0 },
+			},
+		);
+	}
+
 	async getChannelsByServerId(serverId: string) {
 		const channels = await this.channelssRepository.findMany({
 			server_id: serverId,

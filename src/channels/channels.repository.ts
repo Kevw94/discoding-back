@@ -18,11 +18,12 @@ export class ChannelsRepository {
 	async createChannel(query: Channel) {
 		return this.channels.insertOne(query);
 	}
-
+  
 	async updateOneChannel(
 		query: Filter<Channel>,
 		update: Partial<Channel> | UpdateFilter<Channel>,
 	) {
+
 		return this.channels.updateOne(query, update);
 	}
 
@@ -45,6 +46,7 @@ export class ChannelsRepository {
 		const options = { projection: { _id: 1 } };
 		return this.channels.findOne(query, options);
 	}
+
 	async findMany(
 		query: Filter<Channel>,
 		options: FindOptions<Channel> = undefined,

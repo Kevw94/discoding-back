@@ -9,4 +9,4 @@ import { ChannelsRepository } from './channels.repository';
 	providers: [ChannelsService, ChannelsRepository],
 	controllers: [ChannelsController],
 })
-export class ChannelsModule {}
+export class ChannelsModule { }

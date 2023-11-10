@@ -6,6 +6,7 @@ import {
 	IsString,
 	Length,
 } from 'class-validator';
+
 import { TypeMessage } from '../interfaces/messages.interface';
 
 export class CreateMessageDTO {
@@ -23,5 +24,7 @@ export class CreateMessageDTO {
 
 	@IsNotEmpty()
 	@IsString()
+  
 	id_conv: string;
 }
+

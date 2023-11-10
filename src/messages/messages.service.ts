@@ -7,6 +7,7 @@ export class MessagesService {
 	constructor(
 		@Inject(forwardRef(() => MessagesRepository))
 		private messagesRepository: MessagesRepository,
+
 	) {}
 
 	async createMessage(userId: string, payload: Message) {
@@ -26,5 +27,6 @@ export class MessagesService {
 			id_conv: idConv,
 		});
 		return messages;
+
 	}
 }
