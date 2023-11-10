@@ -29,7 +29,6 @@ export class DTOAuthSignin {
 	public password: string;
 }
 
-
 export class DTOActivationToken {
 	@IsNotEmpty()
 	@IsString()

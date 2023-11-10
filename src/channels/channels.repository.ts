@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Db, Filter, FindOneAndUpdateOptions, FindOptions, UpdateFilter } from 'mongodb';
+import {
+	Db,
+	Filter,
+	FindOneAndUpdateOptions,
+	FindOptions,
+	UpdateFilter,
+} from 'mongodb';
 import { Channel } from './interfaces/channels.interface';
 @Injectable()
 export class ChannelsRepository {
@@ -13,7 +19,10 @@ export class ChannelsRepository {
 		return this.channels.insertOne(query);
 	}
 
-	async updateOneChannel(query: Filter<Channel>, update: Partial<Channel> | UpdateFilter<Channel>) {
+	async updateOneChannel(
+		query: Filter<Channel>,
+		update: Partial<Channel> | UpdateFilter<Channel>,
+	) {
 		return this.channels.updateOne(query, update);
 	}
 
@@ -25,7 +34,10 @@ export class ChannelsRepository {
 		return this.channels.findOneAndUpdate(query, update, options);
 	}
 
-	async findOne(query: Filter<Channel>, options: FindOptions<Channel> = undefined) {
+	async findOne(
+		query: Filter<Channel>,
+		options: FindOptions<Channel> = undefined,
+	) {
 		return this.channels.findOne(query, options);
 	}
 
@@ -33,12 +45,13 @@ export class ChannelsRepository {
 		const options = { projection: { _id: 1 } };
 		return this.channels.findOne(query, options);
 	}
-	async findMany(query: Filter<Channel>, options: FindOptions<Channel> = undefined) {
+	async findMany(
+		query: Filter<Channel>,
+		options: FindOptions<Channel> = undefined,
+	) {
 		return this.channels.find(query, options).toArray();
 	}
 	async getAllChannels() {
 		return this.channels.find().toArray();
 	}
-
-
 }

@@ -2,17 +2,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ChannelsController } from './channels.controller';
 
 describe('ChannelsController', () => {
-  let controller: ChannelsController;
+	let controller: ChannelsController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [ChannelsController],
-    }).compile();
+	beforeEach(async () => {
+		const module: TestingModule = await Test.createTestingModule({
+			controllers: [ChannelsController],
+		}).compile();
 
-    controller = module.get<ChannelsController>(ChannelsController);
-  });
+		controller = module.get<ChannelsController>(ChannelsController);
+	});
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
+	it('should be defined', () => {
+		expect(controller).toBeDefined();
+	});
 });

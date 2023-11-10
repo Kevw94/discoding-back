@@ -8,5 +8,4 @@ export class UsersServersRepository {
 	get usersServers() {
 		return this.db.collection<UsersServer>('users-servers');
 	}
-
 }

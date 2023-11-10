@@ -10,4 +10,4 @@ import { DatabaseModule } from '@/external-module/database/mongo.module';
 	providers: [UsersService, UsersRepository],
 	exports: [UsersService],
 })
-export class UsersModule { }
+export class UsersModule {}
