@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	Post,
+	Req,
+	Res,
+	UseGuards,
+} from '@nestjs/common';
 import { ChannelsService } from './channels.service';
 import { JwtRequest } from '@/auth/interfaces/jwt.interface';
 import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
@@ -10,15 +19,25 @@ import { CreateChannelDTO } from './dto/channels.dto';
 export class ChannelsController {
 	constructor(private readonly channelsService: ChannelsService) {}
 
-	@Get(":serverId")
-	async getChannelsByServerId(@Param('serverId') serverId: string,@Res() res: Response) {
-		const channels = await this.channelsService.getChannelsByServerId(serverId)
-		return res.status(201).json({ status: 'ok', newChannel: channels});
+	@Get('')
+	async getChannels(@Res() res: Response) {
+		const channels = await this.channelsService.getAllChannels();
+		return res.status(200).json({ status: 'ok', channels: channels });
 	}
 
-	@Post("create")
+	@Get(':serverId')
+	async getChannelsByServerId(
+		@Param('serverId') serverId: string,
+		@Res() res: Response,
+	) {
+		const channels =
+			await this.channelsService.getChannelsByServerId(serverId);
+		return res.status(201).json({ status: 'ok', newChannel: channels });
+	}
+
+	@Post('create')
 	async createMessage(@Res() res: Response, @Body() body: CreateChannelDTO) {
-		const newChannel = await this.channelsService.createChannel(body)
-		return res.status(201).json({ status: 'ok', newChannel: newChannel});
+		const newChannel = await this.channelsService.createChannel(body);
+		return res.status(201).json({ status: 'ok', newChannel: newChannel });
 	}
 }

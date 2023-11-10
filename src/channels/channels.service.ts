@@ -7,17 +7,31 @@ export class ChannelsService {
 	constructor(
 		@Inject(forwardRef(() => ChannelsRepository))
 		private channelssRepository: ChannelsRepository,
-	) { }
+	) {}
 
 	async createChannel(payload: Channel) {
-		const createChannel = await this.channelssRepository.createChannel(payload)
-		const channelToRetreive = await this.channelssRepository.findOne({_id: createChannel.insertedId})
-		return channelToRetreive
+		const createChannel =
+			await this.channelssRepository.createChannel(payload);
+		const channelToRetreive = await this.channelssRepository.findOne({
+			_id: createChannel.insertedId,
+		});
+		return channelToRetreive;
+	}
+
+	async getAllChannels() {
+		return this.channelssRepository.findMany(
+			{},
+			{
+				projection: { _id: 1, 'profile.password': 0 },
+			},
+		);
 	}
 
 	async getChannelsByServerId(serverId: string) {
-		const channels = await this.channelssRepository.findMany({server_id: serverId})
+		const channels = await this.channelssRepository.findMany({
+			server_id: serverId,
+		});
 
-		return channels
+		return channels;
 	}
 }
